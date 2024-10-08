@@ -34,10 +34,14 @@ class HTMLNode:
 
 
 class LeafNode(HTMLNode):
-    def __init__(self, tag, value, props):
+    def __init__(self, tag, value, props=None):
         super().__init__(tag, value, None, props)
         if value is None:
             raise ValueError
+        if props is None:
+            return None
+        else:
+            self.props = props
 
     def to_html(self):
         if self.tag == "" or self.tag is None:
@@ -45,4 +49,12 @@ class LeafNode(HTMLNode):
         elif self.props is None or self.props == {}:
             return f"{self.element_start}{self.element_value}{self.element_end}"
         else:
-            return f"{self.element_start.replace(">", " " + self.props_to_html() + ">")}{self.element_value}{self.element_end}"
+            tag_with_props = self.element_start.replace(">", " " + self.props_to_html() + ">")
+            return f"{tag_with_props}{self.element_value}{self.element_end}"
+
+class ParentNode(LeafNode):
+    def __init__(self, tag, children):
+        self.tag = tag
+        self.children = children
+
+    def to_html()
