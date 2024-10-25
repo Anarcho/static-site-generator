@@ -102,6 +102,7 @@ class ParentNode(HTMLNode):
         try:
             for child in self.children:
                 result += child.to_html()
+                print(result)
             if self.props and len(self.props) > 0:
                 parent_props = self.props_to_html()
                 return f"<{self.tag} {parent_props}>{result}</{self.tag}>"

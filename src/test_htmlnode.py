@@ -45,20 +45,15 @@ class TestHtmlNode(unittest.TestCase):
         self.assertNotEqual(node, node2)
 
     def test_exception_1(self):
-        node = ParentNode(
-            "p",
-            [
-                LeafNode("a", "click me!", {"href": "http://boot.dev"}),
-                LeafNode(None, "Normal Text"),
-                LeafNode("i", None),
-                LeafNode(None, "Normal"),
-            ],
-        )
+        tag = TagType.LINK.value
+        value = "This is a html node"
+        children = []
+        props = {"href": "http://boot.dev"}
+
+        node = HTMLNode(tag, value, children, props)
         with self.assertRaises(Exception) as context:
             node.to_html()
-        self.assertTrue(
-            "Invalid ParentNode: No value provided" in str(context.exception)
-        )
+        self.assertTrue("HTML Invalid: Not Implemented" in str(context.exception))
 
     def test_repr(self):
         tag = TagType.LINK.value
