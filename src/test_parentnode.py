@@ -72,17 +72,21 @@ class TestParentNode(unittest.TestCase):
         node2 = ParentNode(tag, children2, None)
         self.assertNotEqual(node, node2)
 
-    def test_eq_to_html(self)
-        tag = TagType.LINK.value
-        props = {"href": "http://boot.dev"}
-        children = [
-            LeafNode("a", "click me!", {"href": "http://boot.dev"}),
-            LeafNode(None, "Normal Text"),
-            LeafNode("i", "Italic Text"),
-            LeafNode(None, "Normal"),
-            ParentNode("p", [LeafNode(None, "Normal")], {"href": "http://boot.dev"}),
-        ]
-        node = ParentNode(tag, children, props)
+    def test_eq_to_html(self):
+        node = ParentNode(
+            "p",
+            [
+                LeafNode("b", "Bold text"),
+                LeafNode(None, "Normal text"),
+                LeafNode("i", "italic text"),
+                LeafNode(None, "Normal text"),
+            ],
+        )
+
+        self.assertEqual(
+            node.to_html(),
+            f"<p><b>Bold text</b>Normal text<i>italic text</i>Normal text</p>",
+        )
 
 
 if __name__ == "__main__":
