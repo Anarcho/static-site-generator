@@ -1,9 +1,8 @@
-from htmlnode import HTMLNode, LeafNode, ParentNode, TagType
 from textnode import TextNode, TextType
 
-string_node = "This is a text with a  **bold phrase** in the middle"
+string_node = "This is a text with a **bold phrase** in the middle"
 
-node = TextNode(string_node, TextType.BOLD)
+node = TextNode(string_node, TextType.TEXT)
 
 # older_nodes = [node]
 # delimiter = "**"
@@ -16,11 +15,19 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
     result = []
     for node in old_nodes:
         inner_result = []
-        if node.text.count(delimiter) != 2:
+        if node.text.count(delimiter) % 2 != 0:
             raise Exception("Invalid Markdown: delimiter not present in node")
-        elif text_type != TextType.TEXT 
+        else:
+            for split in node.text.split(delimiter):
+                print(split)
+                text_node = None
+                if node.text.split(delimiter).index(split) % 2 == 0:
+                    text_node = TextNode(split, TextType.TEXT)
+                else:
+                    text_node = TextNode(split, text_type)
+                inner_result.append(text_node)
+            result.extend(inner_result)
+    return result
 
-    return result 
 
-
-split_nodes_delimiter([node], "**", TextType.BOLD)
+print(split_nodes_delimiter([node], "**", TextType.BOLD))
