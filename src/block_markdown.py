@@ -1,9 +1,19 @@
-from block_markdown import BlockTypes
+from enum import Enum
 import re
+
+
+class BlockTypes(Enum):
+    PARAGRAPH = "paragraph"
+    HEADING = "heading"
+    CODE = "code"
+    QUOTE = "quote"
+    UNORDERED_LIST = "unordered_list"
+    ORDERD_LIST = "ordered_list"
 
 
 def markdown_to_blocks(markdown):
     blocks = markdown.split("\n\n")
+    blocks = list(map(str.strip, blocks))
     return blocks
 
 
@@ -31,17 +41,3 @@ def block_to_block_type(markdown_block):
         return BlockTypes.HEADING
     else:
         return BlockTypes.PARAGRAPH
-
-
-text = """# This is a heading
-
-This is a paragraph of text. It has some **bold** and *italic* words inside of it.
-
-* This is the first list item in a list block
-* This is a list item
-* This is another list item"""
-
-list_md = markdown_to_blocks(text)
-
-for md in list_md:
-    print(block_to_block_type(md))
