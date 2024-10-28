@@ -1,47 +1,33 @@
-from block_markdown import BlockTypes
-import re
+from block_markdown import (
+    BlockTypes,
+    block_to_block_type,
+    markdown_to_blocks,
+)
+from htmlnode import HTMLNode
 
-
-def markdown_to_blocks(markdown):
-    blocks = markdown.split("\n\n")
-    return blocks
-
-
-def block_to_block_type(markdown_block):
-    header_pattern = r"^#+\s"  # Matches Markdown headers
-    code_pattern = r"`{3}"  # Matches code block delimiters (```)
-    quote_pattern = r"^>\s"  # Matches blockquotes
-    unordered_pattern = r"^(?:\*.*\s)+"  # Matches unordered lists (* or -)
-    ordered_pattern = r"^\d+\.\s"  # Matches ordered lists (e.g., 1. Item)
-
-    print(markdown_block)
-    if len(re.findall(header_pattern, markdown_block)) > 0:
-        return BlockTypes.HEADING
-
-    elif len(re.findall(code_pattern, markdown_block)) > 0:
-        return BlockTypes.CODE
-
-    elif len(re.findall(quote_pattern, markdown_block)) > 0:
-        return BlockTypes.QUOTE
-
-    elif len(re.findall(unordered_pattern, markdown_block)) > 0:
-        return BlockTypes.UNORDERED_LIST
-
-    elif len(re.findall(ordered_pattern, markdown_block)) > 0:
-        return BlockTypes.HEADING
-    else:
-        return BlockTypes.PARAGRAPH
-
-
-text = """# This is a heading
+text = """
+# This is a heading
 
 This is a paragraph of text. It has some **bold** and *italic* words inside of it.
 
 * This is the first list item in a list block
 * This is a list item
-* This is another list item"""
+* This is another list item
+"""
 
-list_md = markdown_to_blocks(text)
 
-for md in list_md:
-    print(block_to_block_type(md))
+def markdown_to_html_node(markdown):
+    split_to_blocks = markdown_to_blocks(markdown)
+
+    for block in split_to_blocks:
+        block_type = block_to_block_type(block)
+        match block_type:
+            case BlockTypes.HEADING:
+                header_count = block.count("#")
+                block_text = block.replace("#", "")
+                header_node = HTMLNode(f"h{header_count}", block_text.strip())
+            case _:
+                print("null")
+
+
+print(markdown_to_html_node(text))
