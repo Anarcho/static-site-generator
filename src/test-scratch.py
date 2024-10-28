@@ -3,7 +3,8 @@ from block_markdown import (
     block_to_block_type,
     markdown_to_blocks,
 )
-from htmlnode import HTMLNode
+from htmlnode import HTMLNode, LeafNode, ParentNode
+from inline_markdown import text_to_text_node
 
 text = """
 # This is a heading
@@ -17,17 +18,23 @@ This is a paragraph of text. It has some **bold** and *italic* words inside of i
 
 
 def markdown_to_html_node(markdown):
-    split_to_blocks = markdown_to_blocks(markdown)
+    blocks = markdown_to_blocks(markdown)
+    for block in blocks:
+        block_children = text_to_children(block)
+        block_parent = ParentNode("t", block_children)
 
-    for block in split_to_blocks:
-        block_type = block_to_block_type(block)
-        match block_type:
-            case BlockTypes.HEADING:
-                header_count = block.count("#")
-                block_text = block.replace("#", "")
-                header_node = HTMLNode(f"h{header_count}", block_text.strip())
-            case _:
-                print("null")
+    # header_count = block.count("#")
+    # block_text = block.replace("#", "")
+    # get_child_nodes = text_to_text_node(block_text)
+    # header_node = ParentNode(f"h{header_count}", get_child_nodes)
 
 
-print(markdown_to_html_node(text))
+def text_to_children(text):
+    results = []
+    text_nodes = text_to_text_node(text)
+    for node in text_nodes:
+        results.append(LeafNode(node.text_type, node.text))
+    return results
+
+
+markdown_to_html_node(text)

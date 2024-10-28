@@ -2,10 +2,6 @@ import unittest
 from textnode import TextNode, TextType
 from htmlnode import HTMLNode, TagType, LeafNode
 
-# Tests:
-# 1. To html
-# 2. repr
-
 
 class TestHtmlNode(unittest.TestCase):
     def test_eq(self):

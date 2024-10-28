@@ -4,8 +4,10 @@ from enum import Enum
 class TagType(Enum):
     PARAGRAPH = "p"
     BOLD = "b"
+    CODE = "code"
     ITALIC = "i"
     LINK = "a"
+    IMAGE = "img"
 
 
 class HTMLNode:
