@@ -92,6 +92,9 @@ def text_to_text_node(text):
     result = split_nodes_image(result)
     return result
 
+def detect_text_node(text):
+    if re.findall()
+
 
 def extract_markdown_images(text):
     matches = re.findall(r"!\[([^\[\]]*)\]\(([^\(\)]*)\)", text)

@@ -18,13 +18,12 @@ def markdown_to_blocks(markdown):
 
 
 def block_to_block_type(markdown_block):
-    header_pattern = r"^#+\s"  # Matches Markdown headers
-    code_pattern = r"`{3}"  # Matches code block delimiters (```)
-    quote_pattern = r"^>\s"  # Matches blockquotes
-    unordered_pattern = r"^(?:\*.*\s)+"  # Matches unordered lists (* or -)
-    ordered_pattern = r"^\d+\.\s"  # Matches ordered lists (e.g., 1. Item)
+    header_pattern = r"^#{1,6}\s.+$"
+    code_pattern = r"```[\s\S]*?```"
+    quote_pattern = r"^>\s.+$"
+    unordered_pattern = r"^\s*[-*+]\s.+$"
+    ordered_pattern = r"^\s*\d+\.\s.+$"
 
-    print(markdown_block)
     if len(re.findall(header_pattern, markdown_block)) > 0:
         return BlockTypes.HEADING
 
